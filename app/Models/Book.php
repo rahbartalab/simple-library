@@ -16,7 +16,7 @@ class Book extends Model
 
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'book_category');
+        return $this->belongsToMany(Category::class, 'book_category' );
     }
 
     public function tags(): BelongsToMany
@@ -33,6 +33,7 @@ class Book extends Model
     {
         $query->when(request()->filled('q'),
             fn(Builder $query) => $query->where('title', 'like', '%' . request('q') . '%')
+            ->orWhere('author', 'like', '%' . request('q') . '%')
         );
 
         $query->when(request()->filled('tags'),
@@ -46,6 +47,7 @@ class Book extends Model
                 fn(Builder $query) => $query->whereIn('categories.id', request('categories'))
             )
         );
+
         $query->whereDoesntHave('orders')->orWhereHas('orders', fn(Builder $query) => $query->where('is_active', false));
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Order extends Model
@@ -12,6 +13,11 @@ class Order extends Model
 
     public function books(): BelongsToMany
     {
-        return $this->belongsToMany(Book::class , 'book_category');
+        return $this->belongsToMany(Book::class, 'book_category');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

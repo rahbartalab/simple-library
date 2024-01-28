@@ -3,4 +3,5 @@
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('store' , [OrderController::class , 'store'])->name('orders.store');
+Route::resource('orders' , OrderController::class);
+Route::post('deactivate/{order}' , [OrderController::class , 'deActivate'])->name('orders.deactivate');

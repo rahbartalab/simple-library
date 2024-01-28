@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -19,9 +19,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
             'email' => 'required|string|email|unique:users|max:255',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed', // password_confirmation
         ]);
 
         /** @var User $user */
@@ -47,7 +47,7 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt(['email' => $request->input('email'), 'password' => $request->input('password')])) {
-            return redirect()->route('books.index')->with('success' , 'Login successfully');
+            return redirect()->route('books.index')->with('success', 'Login successfully');
         } else {
             return redirect()->back()->with('error', 'Invalid email or password');
         }
